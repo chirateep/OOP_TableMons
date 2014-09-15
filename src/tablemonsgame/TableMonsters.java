@@ -23,7 +23,7 @@ public class TableMonsters extends BasicGame{
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		skill = new Skill(GAME_WIDTH,GAME_HEIGHT);
+		skill = new Skill(GAME_WIDTH/2,GAME_HEIGHT/2);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class TableMonsters extends BasicGame{
 	
 	public static void main(String[] args) {
 	    try {
-	      TableMonsters game = new TableMonsters("Flappy Dot Game");
+	      TableMonsters game = new TableMonsters("Table Game");
 	      AppGameContainer appgc = new AppGameContainer(game);
 	      appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
 	      appgc.setMinimumLogicUpdateInterval(1000 / 60);
