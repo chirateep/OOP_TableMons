@@ -80,19 +80,19 @@ public class TableMonsters extends BasicGame{
 	}
 
 	private void controllEmpty(int key) {
-		if(key == Input.KEY_UP){
+		if(key == Input.KEY_UP && empty.getY() != 350){
 			empty.up();
 			downSkillOne();
 		}
-		if(key == Input.KEY_DOWN){
+		if(key == Input.KEY_DOWN && empty.getY() != 550){
 			empty.down();
 			upSkillOne();
 		}
-		if(key == Input.KEY_LEFT){
+		if(key == Input.KEY_LEFT && empty.getX() != 150){
 			empty.left();
 			rightSkillOne();
 		}
-		if(key == Input.KEY_RIGHT){
+		if(key == Input.KEY_RIGHT && empty.getX() != 350){
 			empty.right();
 			leftSkillOne();
 		}
