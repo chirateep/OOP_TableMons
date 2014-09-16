@@ -11,6 +11,7 @@ public class TableMonsters extends BasicGame{
 	public static final int GAME_WIDTH = 600;
 	public static final int GAME_HEIGHT = 700;
 	private Skill skill;
+	private MoveEmpty empty;
 
 	public TableMonsters(String title) {
 		super(title);
@@ -19,11 +20,14 @@ public class TableMonsters extends BasicGame{
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		skill.render();
+		empty.render();
+		
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		skill = new Skill(GAME_WIDTH/2,GAME_HEIGHT/2);
+		skill = new Skill();
+		empty = new MoveEmpty();
 	}
 
 	@Override
