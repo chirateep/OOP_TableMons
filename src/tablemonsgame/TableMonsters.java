@@ -12,6 +12,7 @@ public class TableMonsters extends BasicGame{
 	public static final int GAME_WIDTH = 600;
 	public static final int GAME_HEIGHT = 700;
 	private Skill[] skillOne = new Skill [9];
+	private Example example;
 	private MoveEmpty empty;
 	
 
@@ -23,6 +24,7 @@ public class TableMonsters extends BasicGame{
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		renderSkillOne();
 		empty.render();
+		example.render();
 	}
 
 	private void renderSkillOne() {
@@ -40,6 +42,7 @@ public class TableMonsters extends BasicGame{
 	public void init(GameContainer container) throws SlickException {
 		initSkillOne();
 		empty = new MoveEmpty(350,550);
+		example = new Example(450,150);
 	}
 
 	private void initSkillOne() throws SlickException {
@@ -57,22 +60,86 @@ public class TableMonsters extends BasicGame{
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		empty.update();
+		updateSkillOne();
+	}
+
+	private void updateSkillOne() {
+		skillOne[0].update();
+		skillOne[1].update();
+		skillOne[2].update();
+		skillOne[3].update();
+		skillOne[4].update();
+		skillOne[5].update();
+		skillOne[6].update();
+		skillOne[7].update();
 	}
 	
 	@Override
 	public void keyPressed(int key, char c){
+		controllEmpty(key);
+	}
+
+	private void controllEmpty(int key) {
 		if(key == Input.KEY_UP){
 			empty.up();
+			downSkillOne();
 		}
 		if(key == Input.KEY_DOWN){
 			empty.down();
+			upSkillOne();
 		}
 		if(key == Input.KEY_LEFT){
 			empty.left();
+			rightSkillOne();
 		}
 		if(key == Input.KEY_RIGHT){
 			empty.right();
+			leftSkillOne();
 		}
+	}
+
+	private void leftSkillOne() {
+		skillOne[0].left(empty.getX(),empty.getY());
+		skillOne[1].left(empty.getX(),empty.getY());
+		skillOne[2].left(empty.getX(),empty.getY());
+		skillOne[3].left(empty.getX(),empty.getY());
+		skillOne[4].left(empty.getX(),empty.getY());
+		skillOne[5].left(empty.getX(),empty.getY());
+		skillOne[6].left(empty.getX(),empty.getY());
+		skillOne[7].left(empty.getX(),empty.getY());
+	}
+
+	private void rightSkillOne() {
+		skillOne[0].right(empty.getX(),empty.getY());
+		skillOne[1].right(empty.getX(),empty.getY());
+		skillOne[2].right(empty.getX(),empty.getY());
+		skillOne[3].right(empty.getX(),empty.getY());
+		skillOne[4].right(empty.getX(),empty.getY());
+		skillOne[5].right(empty.getX(),empty.getY());
+		skillOne[6].right(empty.getX(),empty.getY());
+		skillOne[7].right(empty.getX(),empty.getY());
+	}
+
+	private void upSkillOne() {
+		skillOne[0].up(empty.getX(),empty.getY());
+		skillOne[1].up(empty.getX(),empty.getY());
+		skillOne[2].up(empty.getX(),empty.getY());
+		skillOne[3].up(empty.getX(),empty.getY());
+		skillOne[4].up(empty.getX(),empty.getY());
+		skillOne[5].up(empty.getX(),empty.getY());
+		skillOne[6].up(empty.getX(),empty.getY());
+		skillOne[7].up(empty.getX(),empty.getY());
+	}
+
+	private void downSkillOne() {
+		skillOne[0].down(empty.getX(),empty.getY());
+		skillOne[1].down(empty.getX(),empty.getY());
+		skillOne[2].down(empty.getX(),empty.getY());
+		skillOne[3].down(empty.getX(),empty.getY());
+		skillOne[4].down(empty.getX(),empty.getY());
+		skillOne[5].down(empty.getX(),empty.getY());
+		skillOne[6].down(empty.getX(),empty.getY());
+		skillOne[7].down(empty.getX(),empty.getY());
 	}
 	
 	

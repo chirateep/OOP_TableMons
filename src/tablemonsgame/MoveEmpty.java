@@ -4,7 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class MoveEmpty {
-	private Image skill_Empty;
+	private Image skillEmptyOne;
 	private float x;
 	private float y;
 	private float vx;
@@ -15,11 +15,11 @@ public class MoveEmpty {
 		this.y = y;
 		this.vx = x;
 		this.vy = y;
-		skill_Empty =  new Image("res/empty.png");
+		skillEmptyOne =  new Image("res/empty.png");
 	}
 
 	public void render() {
-		skill_Empty.draw(x,y);
+		skillEmptyOne.draw(x,y);
 	}
 
 	public void up() {
@@ -41,7 +41,15 @@ public class MoveEmpty {
 	public void update() {
 		x = vx;
 		y = vy;
+		
 	}
-	
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
 	
 }
