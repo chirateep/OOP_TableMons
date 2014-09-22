@@ -1,5 +1,7 @@
 package tablemonsgame;
 
+import java.util.Random;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -14,6 +16,7 @@ public class TableMonsters extends BasicGame{
 	private Skill[] skillOne = new Skill [9];
 	private Example example;
 	private MoveEmpty empty;
+	private boolean isReset;
 	
 
 	public TableMonsters(String title) {
@@ -43,6 +46,7 @@ public class TableMonsters extends BasicGame{
 		initSkillOne();
 		empty = new MoveEmpty(350,550);
 		example = new Example(450,150);
+		isReset = false;
 	}
 
 	private void initSkillOne() throws SlickException {
@@ -61,6 +65,9 @@ public class TableMonsters extends BasicGame{
 	public void update(GameContainer container, int delta) throws SlickException {
 		empty.update();
 		updateSkillOne();
+		if(isReset){
+			resetSkill();
+		}
 	}
 
 	private void updateSkillOne() {
@@ -80,21 +87,48 @@ public class TableMonsters extends BasicGame{
 	}
 
 	private void controllEmpty(int key) {
-		if(key == Input.KEY_UP && empty.getY() != 350){
-			empty.up();
-			downSkillOne();
+		if(key == Input.KEY_UP){
+			upMovement();
 		}
-		if(key == Input.KEY_DOWN && empty.getY() != 550){
+		if(key == Input.KEY_DOWN){
+			downMovement();
+		}
+		if(key == Input.KEY_LEFT){
+			leftMovement();
+		}
+		if(key == Input.KEY_RIGHT){
+			rightMovement();
+		}
+		if(key == Input.KEY_ENTER){
+			isReset =! isReset;
+		}
+	}
+
+	private void upMovement() {
+		if(empty.getY() < 550){
 			empty.down();
 			upSkillOne();
 		}
-		if(key == Input.KEY_LEFT && empty.getX() != 150){
-			empty.left();
-			rightSkillOne();
+	}
+
+	private void downMovement() {
+		if(empty.getY() > 350){
+			empty.up();
+			downSkillOne();
 		}
-		if(key == Input.KEY_RIGHT && empty.getX() != 350){
+	}
+
+	private void leftMovement() {
+		if(empty.getX() < 350){
 			empty.right();
 			leftSkillOne();
+		}
+	}
+
+	private void rightMovement() {
+		if(empty.getX() > 150){
+			empty.left();
+			rightSkillOne();
 		}
 	}
 
@@ -142,13 +176,29 @@ public class TableMonsters extends BasicGame{
 		skillOne[7].down(empty.getX(),empty.getY());
 	}
 	
-	
+	private void resetSkill(){
+		Random random = new Random();
+		int count;
+		count = random.nextInt(4);
+		if(count == 0){
+			upMovement();
+		}
+		if(count == 1){
+			downMovement();
+		}
+		if(count == 2){
+			leftMovement();
+		}
+		if(count == 3){
+			rightMovement();
+		}
+	}
 	public static void main(String[] args) {
 	    try {
 	      TableMonsters game = new TableMonsters("Table Game");
 	      AppGameContainer appgc = new AppGameContainer(game);
 	      appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
-	      appgc.setMinimumLogicUpdateInterval(1000 / 60);
+	      appgc.setMinimumLogicUpdateInterval(1000 / 30);
 	      appgc.start();
 	    } catch (SlickException e) {
 	      e.printStackTrace();

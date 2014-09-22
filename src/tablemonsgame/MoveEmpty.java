@@ -41,7 +41,6 @@ public class MoveEmpty {
 	public void update() {
 		x = vx;
 		y = vy;
-		
 	}
 
 	public float getX() {
