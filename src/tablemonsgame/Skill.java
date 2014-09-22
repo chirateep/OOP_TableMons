@@ -13,12 +13,16 @@ public class Skill {
 	private float y;
 	private float vx;
 	private float vy;
+	private float xStart;
+	private float yStart;
 	
 	public Skill(float x, float y, int count) throws SlickException {
 		this.x = x;
 		this.y = y;
 		this.vx = x;
 		this.vy = y;
+		this.xStart = x;
+		this.yStart = y;
 		skillOne = new Image("res/skill1/skill1-"+(count+1)+".png");
 	}
 	
@@ -53,6 +57,15 @@ public class Skill {
 		if(x == xEmpty+100 && y == yEmpty){
 			vx -= 100;
 		}
+	}
+
+	public boolean check() {
+		if(x == xStart && y == yStart){
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 
 	

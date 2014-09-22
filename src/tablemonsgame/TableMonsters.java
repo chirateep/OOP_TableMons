@@ -17,8 +17,11 @@ public class TableMonsters extends BasicGame{
 	private Example example;
 	private MoveEmpty empty;
 	private boolean isReset;
+	private boolean[] checkComp = new boolean [8];
+	private boolean isStart;
+	private int countCheck;
+	private boolean isFinish;
 	
-
 	public TableMonsters(String title) {
 		super(title);
 	}
@@ -28,6 +31,10 @@ public class TableMonsters extends BasicGame{
 		renderSkillOne();
 		empty.render();
 		example.render();
+		if(isFinish){
+			g.drawString("Fuck",300,0);
+			skillOne[8].render();
+		}
 	}
 
 	private void renderSkillOne() {
@@ -47,6 +54,8 @@ public class TableMonsters extends BasicGame{
 		empty = new MoveEmpty(350,550);
 		example = new Example(450,150);
 		isReset = false;
+		isStart = false;
+		isFinish = false;
 	}
 
 	private void initSkillOne() throws SlickException {
@@ -63,10 +72,33 @@ public class TableMonsters extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		empty.update();
-		updateSkillOne();
-		if(isReset){
-			resetSkill();
+		if(!isFinish){
+			empty.update();
+			updateSkillOne();
+			if(isReset){
+				resetSkill();
+				isStart = true;
+			}
+			if(isStart){
+				checkSkillOne();
+			}
+		}
+	}
+
+	private void checkSkillOne() {
+		checkComp[0] = skillOne[0].check();
+		checkComp[1] = skillOne[1].check();
+		checkComp[2] = skillOne[2].check();
+		checkComp[3] = skillOne[3].check();
+		checkComp[4] = skillOne[4].check();
+		checkComp[5] = skillOne[5].check();
+		checkComp[6] = skillOne[6].check();
+		checkComp[7] = skillOne[7].check();
+		if(checkComp[0] && checkComp[1] && checkComp[2] && checkComp[3] && checkComp[4] && checkComp[5] && checkComp[6] && checkComp[7]){
+			countCheck++;
+			if(countCheck >= 10){
+				isFinish = true;
+			}
 		}
 	}
 
