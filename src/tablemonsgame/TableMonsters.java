@@ -16,11 +16,16 @@ public class TableMonsters extends BasicGame{
 	private Skill[] skillOne = new Skill [9];
 	private Example example;
 	private MoveEmpty empty;
+	private Time time;
 	private boolean isReset;
-	private boolean[] checkComp = new boolean [8];
-	private boolean isStart;
-	private int countCheck;
+	private boolean[] checkCompleteSkillOne = new boolean [8];
+	private boolean isCountTime;
+	private int countCheckSkill;
+	private int countResetSkill;
 	private boolean isFinish;
+	private boolean isNotFinish;
+	private boolean isStart;
+	
 	
 	public TableMonsters(String title) {
 		super(title);
@@ -31,10 +36,8 @@ public class TableMonsters extends BasicGame{
 		renderSkillOne();
 		empty.render();
 		example.render();
-		if(isFinish){
-			g.drawString("Fuck",300,0);
-			skillOne[8].render();
-		}
+		g.drawString(""+time.getTime(), 400 , 0);
+		
 	}
 
 	private void renderSkillOne() {
@@ -53,9 +56,12 @@ public class TableMonsters extends BasicGame{
 		initSkillOne();
 		empty = new MoveEmpty(350,550);
 		example = new Example(450,150);
+		time = new Time(3600);
 		isReset = false;
-		isStart = false;
+		isCountTime = false;
 		isFinish = false;
+		isNotFinish = false;
+		isStart = false;
 	}
 
 	private void initSkillOne() throws SlickException {
@@ -72,34 +78,54 @@ public class TableMonsters extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		if(!isFinish){
-			empty.update();
-			updateSkillOne();
-			if(isReset){
-				resetSkill();
-				isStart = true;
+		if(isStart){
+			if(!isFinish){
+				empty.update();
+				updateSkillOne();
+				if(time.getTime() == 0){
+					isNotFinish = true;
+				}
+				reset();
+				if(isCountTime){
+					time.update();
+					checkSkillOne();
+				}
 			}
-			if(isStart){
-				checkSkillOne();
+		}
+	}
+
+	private void reset() {
+		if(isReset){
+			countResetSkill++;
+			resetSkill();
+			if (countResetSkill >= 200){
+				isReset = false;
+				countResetSkill = 0;
+				isCountTime = true;
 			}
 		}
 	}
 
 	private void checkSkillOne() {
-		checkComp[0] = skillOne[0].check();
-		checkComp[1] = skillOne[1].check();
-		checkComp[2] = skillOne[2].check();
-		checkComp[3] = skillOne[3].check();
-		checkComp[4] = skillOne[4].check();
-		checkComp[5] = skillOne[5].check();
-		checkComp[6] = skillOne[6].check();
-		checkComp[7] = skillOne[7].check();
-		if(checkComp[0] && checkComp[1] && checkComp[2] && checkComp[3] && checkComp[4] && checkComp[5] && checkComp[6] && checkComp[7]){
-			countCheck++;
-			if(countCheck >= 10){
+		checkCompleteSkillOne[0] = skillOne[0].check();
+		checkCompleteSkillOne[1] = skillOne[1].check();
+		checkCompleteSkillOne[2] = skillOne[2].check();
+		checkCompleteSkillOne[3] = skillOne[3].check();
+		checkCompleteSkillOne[4] = skillOne[4].check();
+		checkCompleteSkillOne[5] = skillOne[5].check();
+		checkCompleteSkillOne[6] = skillOne[6].check();
+		checkCompleteSkillOne[7] = skillOne[7].check();
+		if(checkSkill()){
+			countCheckSkill++;
+			if(countCheckSkill >= 10){
 				isFinish = true;
+				isCountTime = false;
 			}
 		}
+	}
+
+	private boolean checkSkill() {
+		return checkCompleteSkillOne[0] && checkCompleteSkillOne[1] && checkCompleteSkillOne[2] && checkCompleteSkillOne[3] && checkCompleteSkillOne[4] && checkCompleteSkillOne[5] && checkCompleteSkillOne[6] && checkCompleteSkillOne[7];
 	}
 
 	private void updateSkillOne() {
@@ -116,6 +142,14 @@ public class TableMonsters extends BasicGame{
 	@Override
 	public void keyPressed(int key, char c){
 		controllEmpty(key);
+		if(key == Input.KEY_ENTER){
+			isStart = true;
+			isReset = true;
+		}
+		if(key == Input.KEY_SPACE){
+			isFinish = false;
+			time = new Time(3600);
+		}
 	}
 
 	private void controllEmpty(int key) {
@@ -130,9 +164,6 @@ public class TableMonsters extends BasicGame{
 		}
 		if(key == Input.KEY_RIGHT){
 			rightMovement();
-		}
-		if(key == Input.KEY_ENTER){
-			isReset =! isReset;
 		}
 	}
 
