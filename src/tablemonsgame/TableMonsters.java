@@ -17,6 +17,7 @@ public class TableMonsters extends BasicGame{
 	private Example example;
 	private MoveEmpty empty;
 	private Time time;
+	private Monster monster;
 	private boolean isReset;
 	private boolean[] checkCompleteSkillOne = new boolean [8];
 	private boolean isCountTime;
@@ -25,6 +26,7 @@ public class TableMonsters extends BasicGame{
 	private boolean isFinish;
 	private boolean isNotFinish;
 	private boolean isStart;
+	private boolean isDeadMonster;
 	
 	
 	public TableMonsters(String title) {
@@ -37,7 +39,10 @@ public class TableMonsters extends BasicGame{
 		empty.render();
 		example.render();
 		g.drawString(""+time.getTime(), 400 , 0);
-		
+		g.drawString("HP Monster : " + monster.getHP(),400,100);
+		if(isDeadMonster){
+			g.drawString("AweSome!!!", 250, 0);
+		}
 	}
 
 	private void renderSkillOne() {
@@ -57,6 +62,7 @@ public class TableMonsters extends BasicGame{
 		empty = new MoveEmpty(350,550);
 		example = new Example(450,150);
 		time = new Time(3600);
+		monster = new Monster(60);
 		isReset = false;
 		isCountTime = false;
 		isFinish = false;
@@ -82,14 +88,16 @@ public class TableMonsters extends BasicGame{
 			if(!isFinish){
 				empty.update();
 				updateSkillOne();
-				if(time.getTime() == 0){
-					isNotFinish = true;
-				}
 				reset();
 				if(isCountTime){
 					time.update();
 					checkSkillOne();
 				}
+			}else{
+				monster.decreaseHP(time.getTime());
+				isFinish = false;
+				time = new Time(3600);
+				isDeadMonster = monster.check();
 			}
 		}
 	}
@@ -145,10 +153,6 @@ public class TableMonsters extends BasicGame{
 		if(key == Input.KEY_ENTER){
 			isStart = true;
 			isReset = true;
-		}
-		if(key == Input.KEY_SPACE){
-			isFinish = false;
-			time = new Time(3600);
 		}
 	}
 
