@@ -1,12 +1,21 @@
 package tablemonsgame;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public class Monster {
 	
 	private int HP;
+	private Image monster;
 	
 
-	public Monster(int HP) {
+	public Monster(int HP) throws SlickException {
 		this.HP = HP;
+		monster = new Image("res/monster.png");
+	}
+	
+	public void render(){
+		monster.draw(200,125);
 	}
 
 	public void decreaseHP(int time){
@@ -29,6 +38,8 @@ public class Monster {
 			return false;
 		}
 	}
+
+	
 
 	
 

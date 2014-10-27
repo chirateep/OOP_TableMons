@@ -23,7 +23,6 @@ public class TableMonsters extends BasicGame {
 	private boolean isCountTime;
 	private int countCheckSkill;
 	private int countResetSkill;
-	private boolean isFinish;
 	private boolean isNotFinish;
 	private boolean isStart;
 	private boolean isDeadMonster;
@@ -38,10 +37,12 @@ public class TableMonsters extends BasicGame {
 		renderSkillOne();
 		empty.render();
 		example.render();
+		monster.render();
 		g.drawString("" + time.getTime(), 400, 0);
 		g.drawString("HP Monster : " + monster.getHP(), 400, 100);
 		if (isDeadMonster) {
 			g.drawString("AweSome!!!", 250, 0);
+			
 		}
 	}
 
@@ -60,9 +61,9 @@ public class TableMonsters extends BasicGame {
 		monster = new Monster(60);
 		isReset = false;
 		isCountTime = false;
-		isFinish = false;
-		isNotFinish = false;
-		isStart = false;
+		isNotFinish = true;
+		isStart = true;
+		isDeadMonster = false;
 	}
 
 	private void initSkillOne() throws SlickException {
@@ -81,7 +82,7 @@ public class TableMonsters extends BasicGame {
 	public void update(GameContainer container, int delta)
 			throws SlickException {
 		if (isStart) {
-			if (!isFinish) {
+			if (isNotFinish) {
 				empty.update();
 				updateSkillOne();
 				reset();
@@ -89,11 +90,14 @@ public class TableMonsters extends BasicGame {
 					time.update();
 					checkSkillOne();
 				}
-			} else {
+			}else{
 				monster.decreaseHP(time.getTime());
-				isFinish = false;
 				time = new Time(3600);
 				isDeadMonster = monster.check();
+				if(isDeadMonster){
+					isStart = false;
+				}
+				isNotFinish = true;
 			}
 		}
 	}
@@ -117,7 +121,7 @@ public class TableMonsters extends BasicGame {
 		if (checkSkill()) {
 			countCheckSkill++;
 			if (countCheckSkill >= 10) {
-				isFinish = true;
+				isNotFinish = false;
 				isCountTime = false;
 			}
 		}
@@ -140,8 +144,8 @@ public class TableMonsters extends BasicGame {
 	public void keyPressed(int key, char c) {
 		controllEmpty(key);
 		if (key == Input.KEY_ENTER) {
-			isStart = true;
 			isReset = true;
+			isNotFinish = true;
 		}
 	}
 
